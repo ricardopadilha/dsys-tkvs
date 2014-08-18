@@ -16,13 +16,18 @@
 
 package net.dsys.tkvs.api.transaction;
 
-import javax.annotation.Nonnull;
-
 /**
  * @author Ricardo Padilha
  */
-public interface Database {
+@SuppressWarnings("static-method")
+public abstract class TX {
 
-	Table getTable(@Nonnull String tableName);
+	public TX() {
+		super();
+	}
+
+	public final TXState getState() {
+		throw new IllegalStateException("wrong runtime");
+	}
 
 }

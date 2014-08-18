@@ -15,6 +15,12 @@
  */
 package net.dsys.tkvs.impl.data;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.zip.Checksum;
 
@@ -134,7 +140,64 @@ public final class Keys {
 	}
 
 	@Nonnull
-	public static Key from(@Nonnull final String hexString) {
+	public static <T extends Serializable> Key from(@Nonnull final T obj) {
+		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		try (final ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+			oos.writeObject(obj);
+			oos.close();
+			return new ByteKey(bos.toByteArray());
+		} catch (final IOException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	@Nonnull
+	public static Key join(@Nonnull final Serializable... objs) {
+		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		try (final ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+			oos.writeObject(objs);
+			oos.close();
+			return new ByteKey(bos.toByteArray());
+		} catch (final IOException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	@Nonnull
+	public static <T extends Serializable> T to(@Nonnull final Key key) {
+		try (final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(key.toArray()))) {
+			@SuppressWarnings("unchecked")
+			final T obj = (T) ois.readObject();
+			return obj;
+		} catch (final IOException | ClassNotFoundException | ClassCastException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	@Nonnull
+	public static Serializable[] split(@Nonnull final Key key) {
+		try (final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(key.toArray()))) {
+			final Serializable[] obj = (Serializable[]) ois.readObject();
+			return obj;
+		} catch (final IOException | ClassNotFoundException | ClassCastException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	@Nonnull
+	public static <T extends Serializable> T split(@Nonnull final Key key, @Nonnegative final int index) {
+		try (final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(key.toArray()))) {
+			final Serializable[] objs = (Serializable[]) ois.readObject();
+			@SuppressWarnings("unchecked")
+			final T obj = (T) objs[index];
+			return obj;
+		} catch (final IOException | ClassNotFoundException | ClassCastException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	@Nonnull
+	static Key fromHexString(@Nonnull final String hexString) {
 		return new ByteKey(hexToBytes(hexString));
 	}
 

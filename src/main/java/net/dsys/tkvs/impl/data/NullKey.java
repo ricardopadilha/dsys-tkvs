@@ -42,6 +42,14 @@ final class NullKey implements Key {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public byte[] toArray() {
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public int compareTo(final Key o) {
 		return Keys.compare(this, o);
 	}

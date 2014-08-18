@@ -14,23 +14,33 @@
  * limitations under the License.
  */
 
-package net.dsys.tkvs.api.data;
+package net.dsys.tkvs.api.transaction;
 
 import java.io.Serializable;
 
 import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
 
 /**
  * @author Ricardo Padilha
  */
-@Immutable
-public interface Key extends Comparable<Key>, Serializable {
+public interface TXState {
 
 	@Nonnull
-	Value toValue();
+	Table getTable(@Nonnull String tableName);
 
 	@Nonnull
-	byte[] toArray();
+	TableSerializable getTableSerializable(@Nonnull String tableName);
+
+	@Nonnull
+	<T extends Serializable> T getParameter(@Nonnull String name);
+
+	<T extends Serializable> void exportValue(@Nonnull String name, @Nonnull T value);
+
+	@Nonnull
+	<T extends Serializable> T importValue(@Nonnull String name);
+
+	<T extends Serializable> void addResult(@Nonnull String name, @Nonnull T value);
+
+	void fail();
 
 }

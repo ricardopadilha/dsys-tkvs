@@ -37,7 +37,7 @@ public interface Table {
 	@Nonnull
 	Map<Key, Value> readRange(@Nonnull Key start, @Nonnull Boolean includeStart,
 			@Nonnull Key end, @Nonnull Boolean includeEnd);
-
+	
 	@Nonnull
 	Map<Key, Value> readRange(@Nonnull Key start, @Nonnull Boolean includeStart,
 			@Nonnull Integer count, @Nonnull Direction direction);

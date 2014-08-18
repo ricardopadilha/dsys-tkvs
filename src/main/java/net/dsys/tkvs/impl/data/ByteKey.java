@@ -125,6 +125,14 @@ final class ByteKey implements Key {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public byte[] toArray() {
+		return array.clone();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public int compareTo(final Key o) {
 		return Keys.compare(this, o);
 	}

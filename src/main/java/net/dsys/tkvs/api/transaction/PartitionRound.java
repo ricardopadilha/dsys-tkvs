@@ -16,9 +16,6 @@
 
 package net.dsys.tkvs.api.transaction;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Nonnull;
 
 /**
@@ -27,25 +24,14 @@ import javax.annotation.Nonnull;
  * 
  * @author Ricardo Padilha
  */
-public interface Step {
+public interface PartitionRound {
 
 	/**
-	 * @param table
-	 *            access to the key-value store table.
-	 * @param params
-	 *            contains the transaction's parameters.
-	 * @param state
-	 *            contains the transaction's shared state, i.e., data that has
-	 *            been exported.
-	 * @param results
-	 *            contains the transaction's results, which will be returned to
-	 *            the client at commit.
-	 * @return outcome of the execution for this method. Implementors can only return {@link Status#}
+	 * @param tx
+	 *            access to the transaction's state
+	 * @return outcome of the execution for this method. Implementors can only
+	 *         return {@link Status#}
 	 */
-	@Nonnull
-	Status execute(@Nonnull Database db,
-			@Nonnull Map<String, Object> params,
-			@Nonnull Map<String, Object> state,
-			@Nonnull List<Object> results);
+	void execute(@Nonnull TXState tx);
 
 }

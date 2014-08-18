@@ -14,23 +14,13 @@
  * limitations under the License.
  */
 
-package net.dsys.tkvs.api.data;
-
-import java.io.Serializable;
-
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
+package net.dsys.tkvs.api.transaction;
 
 /**
  * @author Ricardo Padilha
  */
-@Immutable
-public interface Key extends Comparable<Key>, Serializable {
+public interface Round {
 
-	@Nonnull
-	Value toValue();
-
-	@Nonnull
-	byte[] toArray();
+	// this is a tagging interface
 
 }

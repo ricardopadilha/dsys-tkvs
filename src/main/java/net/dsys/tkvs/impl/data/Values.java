@@ -16,6 +16,12 @@
 
 package net.dsys.tkvs.impl.data;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.ByteBuffer;
 
 import javax.annotation.Nonnegative;
@@ -83,9 +89,32 @@ public final class Values {
 	public static Value from(@Nonnull final ByteBuffer in) {
 		return new ByteValue(in);
 	}
-	
+
 	@Nonnull
-	public static Value from(@Nonnull final String hexString) {
+	public static Value from(@Nonnull final Serializable obj) {
+		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		try (final ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+			oos.writeObject(obj);
+			oos.close();
+			return new ByteValue(bos.toByteArray());
+		} catch (final IOException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	@Nonnull
+	public static <T extends Serializable> T to(@Nonnull final Value value) {
+		try (final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(value.toArray()))) {
+			@SuppressWarnings("unchecked")
+			final T obj = (T) ois.readObject();
+			return obj;
+		} catch (final IOException | ClassNotFoundException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	@Nonnull
+	static Value fromHexString(@Nonnull final String hexString) {
 		return new ByteValue(hexToBytes(hexString));
 	}
 

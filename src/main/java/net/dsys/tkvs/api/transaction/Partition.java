@@ -19,9 +19,8 @@ package net.dsys.tkvs.api.transaction;
 /**
  * @author Ricardo Padilha
  */
-public enum Status {
+public interface Partition {
 
-	OK,
-	FAIL;
+	// this is a tagging interface
 
 }
