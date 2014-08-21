@@ -16,12 +16,34 @@
 
 package net.dsys.tkvs.api.transaction;
 
+import java.io.Serializable;
+
+import javax.annotation.Nonnull;
+
+import net.dsys.tkvs.api.tkvs.Table;
+import net.dsys.tkvs.api.tkvs.TableSerializable;
+
 /**
  * @author Ricardo Padilha
  */
-public enum Direction {
+public interface Transaction {
 
-	UP,
-	DOWN;
+	@Nonnull
+	Table getTable(@Nonnull String tableName);
+
+	@Nonnull
+	TableSerializable getTableSerializable(@Nonnull String tableName);
+
+	@Nonnull
+	<T extends Serializable> T getParameter(@Nonnull String name);
+
+	<T extends Serializable> void exportValue(@Nonnull String name, @Nonnull T value);
+
+	@Nonnull
+	<T extends Serializable> T importValue(@Nonnull String name);
+
+	<T extends Serializable> void addResult(@Nonnull String name, @Nonnull T value);
+
+	void fail();
 
 }

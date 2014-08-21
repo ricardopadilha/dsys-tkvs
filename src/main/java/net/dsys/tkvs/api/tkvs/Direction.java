@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package net.dsys.tkvs.api.transaction;
+package net.dsys.tkvs.api.tkvs;
 
 /**
  * @author Ricardo Padilha
  */
-public interface Round {
+public enum Direction {
 
-	// this is a tagging interface
+	UP,
+	DOWN;
 
 }

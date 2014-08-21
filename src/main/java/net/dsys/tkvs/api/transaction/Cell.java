@@ -19,12 +19,9 @@ package net.dsys.tkvs.api.transaction;
 import javax.annotation.Nonnull;
 
 /**
- * Interface for the code that is to be executed in a given round, for a given
- * partition.
- * 
  * @author Ricardo Padilha
  */
-public interface PartitionRound {
+public interface Cell {
 
 	/**
 	 * @param tx
@@ -32,6 +29,6 @@ public interface PartitionRound {
 	 * @return outcome of the execution for this method. Implementors can only
 	 *         return {@link Status#}
 	 */
-	void execute(@Nonnull TXState tx);
+	void execute(@Nonnull Transaction tx);
 
 }

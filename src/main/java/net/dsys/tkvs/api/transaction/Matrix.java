@@ -16,11 +16,13 @@
 
 package net.dsys.tkvs.api.transaction;
 
+import java.io.Serializable;
+
 /**
  * @author Ricardo Padilha
  */
-public interface Partition {
+public interface Matrix {
 
-	// this is a tagging interface
+	void execute(Serializable... params);
 
 }

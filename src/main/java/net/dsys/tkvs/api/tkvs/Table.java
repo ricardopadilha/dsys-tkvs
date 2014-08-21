@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dsys.tkvs.api.transaction;
+package net.dsys.tkvs.api.tkvs;
 
 import java.util.Map;
 

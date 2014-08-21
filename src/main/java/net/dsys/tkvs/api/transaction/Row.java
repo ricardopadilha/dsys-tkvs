@@ -19,15 +19,8 @@ package net.dsys.tkvs.api.transaction;
 /**
  * @author Ricardo Padilha
  */
-@SuppressWarnings("static-method")
-public abstract class TX {
+public interface Row {
 
-	public TX() {
-		super();
-	}
-
-	public final TXState getState() {
-		throw new IllegalStateException("wrong runtime");
-	}
+	void execute();
 
 }
